@@ -1,6 +1,7 @@
+import { Agent } from './types';
 import { logBuild } from './BuildLog';
 
-const Quill = {
+const Quill: Agent = {
   name: 'Quill',
   role: 'Narrative & Memory Writer',
   tier: 3,
