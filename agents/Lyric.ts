@@ -1,6 +1,7 @@
+import { Agent } from './types';
 import { logBuild } from './BuildLog';
 
-const Lyric = {
+const Lyric: Agent = {
   name: 'Lyric',
   role: 'Audio Outreach',
   tier: 2,
