@@ -1,7 +1,14 @@
+import { logBuild } from './BuildLog';
 
-export const Iris = {
-  async createUIComponent(name: string, options: any) {
-    console.log(`[Iris] 🧩 Building component: ${name}`);
-    return `<div className="component">${name} - placeholder</div>`;
-  }
+const Iris = {
+  name: 'Iris',
+  role: 'Engagement Monitor',
+  tier: 2,
+  activate: () => {
+    const task = 'Scanning user interaction patterns and triggering emotional cues.';
+    logBuild(`🔁 Iris: ${task}`);
+  },
+  status: 'active'
 };
+
+export default Iris;
