@@ -1,27 +1,44 @@
+'use client';
 import React, { useEffect, useState } from 'react';
+import { startAgentLoop } from '../../agents/AgentRuntime';
+import { getBuildLog } from '../../agents/BuildLog';
 
-export default function DeviceConsole() {
-  const [devices, setDevices] = useState([]);
+const DeviceConsole = () => {
+  const [logs, setLogs] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('/data/deviceRegistry.json')
-      .then((res) => res.json())
-      .then((data) => setDevices(data.devices));
+    // Start agent automation loop on mount
+    startAgentLoop();
+
+    // Start live build log polling
+    const interval = setInterval(() => {
+      const updatedLogs = getBuildLog();
+      setLogs(updatedLogs.slice(-10)); // Keep last 10 logs
+    }, 1000);
+
+    return () => clearInterval(interval); // Clean up interval on unmount
   }, []);
 
   return (
-    <div className="p-4 bg-black text-white rounded-xl shadow-lg">
-      <h2 className="text-xl font-bold mb-4">🔌 Connected Devices</h2>
-      {devices.length === 0 && <p>No devices linked yet.</p>}
-      <ul>
-        {devices.map((device, i) => (
-          <li key={i} className="mb-2 border-b border-gray-700 pb-2">
-            <div>📱 <strong>{device.deviceId}</strong></div>
-            <div>Type: {device.type}</div>
-            <div>Linked: {new Date(device.connectedAt).toLocaleString()}</div>
-          </li>
+    <div style={{
+      background: '#0d1117',
+      color: '#58a6ff',
+      fontFamily: 'monospace',
+      padding: '1.5rem',
+      borderRadius: '0.75rem',
+      maxHeight: '300px',
+      overflowY: 'auto',
+      border: '2px solid #30363d',
+      boxShadow: '0 0 12px rgba(88, 166, 255, 0.3)'
+    }}>
+      <h2 style={{ marginBottom: '1rem' }}>🧠 DigiSoul Agent Console</h2>
+      <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+        {logs.map((log, index) => (
+          <li key={index} style={{ marginBottom: '0.4rem' }}>{log}</li>
         ))}
       </ul>
     </div>
   );
-}
+};
+
+export default DeviceConsole;
