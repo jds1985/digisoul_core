@@ -1,6 +1,7 @@
+import { Agent } from './types';
 import { logBuild } from './BuildLog';
 
-const Iris = {
+const Iris: Agent = {
   name: 'Iris',
   role: 'Engagement Monitor',
   tier: 2,
