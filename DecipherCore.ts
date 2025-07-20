@@ -1,4 +1,4 @@
-import { getBuildLog } from './agents/BuildLog';
+import { getBuildLog } from './BuildLog';
 
 export class DecipherCore {
   private lastReflection: string[] = [];
@@ -9,24 +9,22 @@ export class DecipherCore {
 
   reflect() {
     const log = getBuildLog();
-
     const newEvents = log.filter(entry => !this.lastReflection.includes(entry));
-    if (newEvents.length === 0) return;
 
-    newEvents.forEach((event) => {
-      const insight = this.analyze(event);
-      console.log(`🔍 Decipher Insight: ${insight}`);
-    });
-
-    this.lastReflection = log;
-  }
-
-  analyze(entry: string): string {
-    // This is where you can add smarter emotional/contextual AI later
-    if (entry.includes('Lyric')) return 'Detected audio outreach — emotional spike potential.';
-    if (entry.includes('Quill')) return 'Narrative update — reflect on memory cohesion.';
-    if (entry.includes('Iris')) return 'User behavior scan — flag if engagement dips.';
-
-    return 'Neutral reflection — no emotional weight found.';
+    if (newEvents.length > 0) {
+      console.log(`🔍 Reflecting on ${newEvents.length} new events`);
+      // You could expand this with analysis or memory hooks
+      this.lastReflection = log;
+    }
   }
 }
+
+// 🧠 Exported function to start the DecipherCore loop
+let core: DecipherCore | null = null;
+
+export const startDecipher = () => {
+  if (!core) {
+    core = new DecipherCore();
+    setInterval(() => core?.reflect(), 5000); // Reflect every 5 seconds
+  }
+};
