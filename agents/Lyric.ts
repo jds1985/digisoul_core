@@ -1,7 +1,14 @@
+import { logBuild } from './BuildLog';
 
-export const Lyric = {
-  async compose(text: string) {
-    console.log(`[Lyric] 🎶 Composing audio for: "${text}"`);
-    return `Audio file link for: "${text}" (mock)`;
-  }
+const Lyric = {
+  name: 'Lyric',
+  role: 'Audio Outreach',
+  tier: 2,
+  activate: () => {
+    const task = 'Composing and deploying voice messages to increase emotional connection.';
+    logBuild(`🎙️ Lyric: ${task}`);
+  },
+  status: 'active'
 };
+
+export default Lyric;
